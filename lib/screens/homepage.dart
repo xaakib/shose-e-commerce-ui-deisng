@@ -20,17 +20,38 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Column(
         children: [
-          Row(
-            children: [
-              Text('Categories'),
-              IconButton(
-                icon: Icon(
-                  FlutterIcons.search,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Text('Categories'),
+                IconButton(
+                  icon: Icon(
+                    FlutterIcons.search,
+                  ),
+                  onPressed: () {},
                 ),
-                onPressed: () {},
-              ),
-            ],
+              ],
+            ),
           ),
+          Text("Dsiplay horizopntal slider"),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                Text(
+                  "JUST FOR YOU",
+                  style: TextStyle(
+                    color: Colors.black54,
+                  ),
+                ),
+                Text("VIEW ALL",
+                    style: TextStyle(
+                      color: Colors.black,
+                    ))
+              ],
+            ),
+          )
         ],
       ),
     );
