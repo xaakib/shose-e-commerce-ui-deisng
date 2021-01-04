@@ -1,6 +1,7 @@
 import 'package:e_commerce_mobile_app/core/const.dart';
 import 'package:e_commerce_mobile_app/core/flutter%20icons.dart';
 import 'package:e_commerce_mobile_app/models/shoe_model.dart';
+import 'package:e_commerce_mobile_app/widgets/app_clipper.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -34,10 +35,13 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          Container(
-            height: 200,
-            width: 300,
-            color: AppColors.blueColor,
+          ClipPath(
+            clipper: AppClipper(cornerSize: 25, diagonalHeight: 100),
+            child: Container(
+              height: 200,
+              width: 300,
+              color: AppColors.blueColor,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
