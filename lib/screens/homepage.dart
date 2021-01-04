@@ -17,17 +17,18 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: Icon(FlutterIcons.menu, color: Colors.black),
+        leading: Icon(FlutterIcons.stars, color: Colors.black),
       ),
       body: ListView(
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Categories'),
                 IconButton(
-                  icon: Icon(FlutterIcons.search),
+                  icon: Icon(FlutterIcons.add),
                   onPressed: () {},
                 ),
               ],
@@ -68,7 +69,7 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 children: [
                   Image(
-                    height: 80,
+                    height: 60,
                     width: 100,
                     image: AssetImage("assets/${data.imgPath}"),
                   ),
@@ -112,29 +113,59 @@ class _HomePageState extends State<HomePage> {
           }),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(items: [
-        BottomNavigationBarItem(
-          icon: Icon(FlutterIcons.compass),
-          // ignore: deprecated_member_use
-          title: Text(
-            "data",
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
           ),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              spreadRadius: 1,
+              blurRadius: 10,
+            ),
+          ],
         ),
-        BottomNavigationBarItem(
-          icon: Icon(FlutterIcons.compass),
-          // ignore: deprecated_member_use
-          title: Text(
-            "data",
-          ),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(FlutterIcons.compass),
-          // ignore: deprecated_member_use
-          title: Text(
-            "data",
-          ),
-        ),
-      ]),
+        child: BottomNavigationBar(
+            selectedItemColor: AppColors.greenColor,
+            unselectedItemColor: Colors.black26,
+            currentIndex: 2,
+            type: BottomNavigationBarType.fixed,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(FlutterIcons.compass),
+                // ignore: deprecated_member_use
+                title: Text(
+                  "data",
+                ),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(FlutterIcons.ok),
+                // ignore: deprecated_member_use
+                title: Text(
+                  "data",
+                ),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(FlutterIcons.person),
+                // ignore: deprecated_member_use
+                title: Text(
+                  "data",
+                ),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(FlutterIcons.chevron_left),
+                // ignore: deprecated_member_use
+                title: Text(
+                  "data",
+                ),
+              ),
+            ]),
+      ),
     );
   }
 }
