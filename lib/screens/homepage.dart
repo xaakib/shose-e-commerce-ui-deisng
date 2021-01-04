@@ -3,6 +3,7 @@ import 'package:e_commerce_mobile_app/core/flutter%20icons.dart';
 import 'package:e_commerce_mobile_app/models/shoe_model.dart';
 import 'package:e_commerce_mobile_app/widgets/app_clipper.dart';
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 
 class HomePage extends StatefulWidget {
   @override
@@ -36,16 +37,41 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Container(
-            height: 350,
+            margin: EdgeInsets.symmetric(vertical: 16),
+            height: 300,
             child: ListView.builder(
                 itemCount: shoeList.length,
+                physics: BouncingScrollPhysics(),
+                padding: EdgeInsets.symmetric(vertical: 16),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return Container(
                     width: 230,
-                    child: _buildBackground(index),
+                    margin: EdgeInsets.only(right: 16),
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 50),
+                          child: _buildBackground(index, 230),
+                        ),
+                        Positioned(
+                          bottom: 150,
+                          right: 10,
+                          child: Transform.rotate(
+                            angle: -math.pi / 7,
+                            child: Image(
+                                height: 100,
+                                image: AssetImage(
+                                    "assets/${shoeList[index].imgPath}")),
+                          ),
+                        ),
+                      ],
+                    ),
                   );
                 }),
+          ),
+          SizedBox(
+            height: 16,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -186,10 +212,11 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildBackground(int index) {
+  Widget _buildBackground(int index, double weidth) {
     return ClipPath(
       clipper: AppClipper(cornerSize: 25, diagonalHeight: 100),
       child: Container(
+        width: weidth,
         color: shoeList[index].color,
         child: Stack(
           children: [
@@ -212,6 +239,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 Container(
+                  margin: EdgeInsets.only(left: 20),
                   width: 125,
                   child: Text(
                     "${shoeList[index].name}",
@@ -223,11 +251,14 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(
                   height: 10,
                 ),
-                Text(
-                  "${shoeList[index].price}",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+                Container(
+                  margin: EdgeInsets.only(left: 20),
+                  child: Text(
+                    "${shoeList[index].price}",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -241,6 +272,10 @@ class _HomePageState extends State<HomePage> {
               child: Container(
                 height: 50,
                 width: 50,
+                child: Icon(
+                  FlutterIcons.menu,
+                  color: Colors.white,
+                ),
                 decoration: BoxDecoration(
                     color: AppColors.greenColor,
                     borderRadius: BorderRadius.only(
