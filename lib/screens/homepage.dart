@@ -1,3 +1,4 @@
+import 'package:e_commerce_mobile_app/core/const.dart';
 import 'package:e_commerce_mobile_app/core/flutter%20icons.dart';
 import 'package:flutter/material.dart';
 
@@ -13,10 +14,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: Icon(
-          FlutterIcons.menu,
-          color: Colors.black,
-        ),
+        leading: Icon(FlutterIcons.menu, color: Colors.black),
       ),
       body: Column(
         children: [
@@ -26,9 +24,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Text('Categories'),
                 IconButton(
-                  icon: Icon(
-                    FlutterIcons.search,
-                  ),
+                  icon: Icon(FlutterIcons.search),
                   onPressed: () {},
                 ),
               ],
@@ -38,20 +34,18 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   "JUST FOR YOU",
-                  style: TextStyle(
-                    color: Colors.black54,
-                  ),
+                  style: TextStyle(color: Colors.black54),
                 ),
                 Text("VIEW ALL",
-                    style: TextStyle(
-                      color: Colors.black,
-                    ))
+                    style:
+                        TextStyle(color: AppColors.greenColor, fontSize: 12)),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
