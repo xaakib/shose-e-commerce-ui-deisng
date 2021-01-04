@@ -34,7 +34,11 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          Text("Dsiplay horizopntal slider"),
+          Container(
+            height: 200,
+            width: 300,
+            color: AppColors.blueColor,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
@@ -129,6 +133,8 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         child: BottomNavigationBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
             selectedItemColor: AppColors.greenColor,
             unselectedItemColor: Colors.black26,
             currentIndex: 2,
@@ -137,7 +143,10 @@ class _HomePageState extends State<HomePage> {
             showUnselectedLabels: false,
             items: [
               BottomNavigationBarItem(
-                icon: Icon(FlutterIcons.compass),
+                icon: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(FlutterIcons.compass),
+                ),
                 // ignore: deprecated_member_use
                 title: Text(
                   "data",
