@@ -35,13 +35,17 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          ClipPath(
-            clipper: AppClipper(cornerSize: 25, diagonalHeight: 100),
-            child: Container(
-              height: 200,
-              width: 300,
-              color: AppColors.blueColor,
-            ),
+          Container(
+            height: 350,
+            child: ListView.builder(
+                itemCount: shoeList.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return Container(
+                    width: 230,
+                    child: _buildBackground(index),
+                  );
+                }),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -178,6 +182,74 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ]),
+      ),
+    );
+  }
+
+  Widget _buildBackground(int index) {
+    return ClipPath(
+      clipper: AppClipper(cornerSize: 25, diagonalHeight: 100),
+      child: Container(
+        color: shoeList[index].color,
+        child: Stack(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Icon(
+                    shoeList[index].brand == "Nike"
+                        ? FlutterIcons.compass
+                        : FlutterIcons.person,
+                    size: 30,
+                  ),
+                ),
+                Expanded(
+                  child: SizedBox(
+                    height: 10,
+                  ),
+                ),
+                Container(
+                  width: 125,
+                  child: Text(
+                    "${shoeList[index].name}",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "${shoeList[index].price}",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+              ],
+            ),
+            Positioned(
+              right: 0,
+              bottom: 0,
+              child: Container(
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                    color: AppColors.greenColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                    )),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
