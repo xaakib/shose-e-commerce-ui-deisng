@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
             child: ListView.builder(
                 itemCount: shoeList.length,
                 physics: BouncingScrollPhysics(),
-                padding: EdgeInsets.symmetric(vertical: 16),
+                padding: EdgeInsets.symmetric(horizontal: 16),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return Container(
