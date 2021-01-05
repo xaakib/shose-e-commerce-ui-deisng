@@ -1,6 +1,7 @@
 import 'package:e_commerce_mobile_app/core/const.dart';
 import 'package:e_commerce_mobile_app/core/flutter%20icons.dart';
 import 'package:e_commerce_mobile_app/models/shoe_model.dart';
+import 'package:e_commerce_mobile_app/screens/details_screen.dart';
 import 'package:e_commerce_mobile_app/widgets/app_clipper.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
@@ -45,27 +46,38 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return Container(
-                    width: 230,
-                    margin: EdgeInsets.only(right: 16),
-                    child: Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 50),
-                          child: _buildBackground(index, 230),
-                        ),
-                        Positioned(
-                          bottom: 150,
-                          right: 10,
-                          child: Transform.rotate(
-                            angle: -math.pi / 7,
-                            child: Image(
-                                height: 100,
-                                image: AssetImage(
-                                    "assets/${shoeList[index].imgPath}")),
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => DetailsScreen(
+                            shoeList[index],
                           ),
                         ),
-                      ],
+                      );
+                    },
+                    child: Container(
+                      width: 230,
+                      margin: EdgeInsets.only(right: 16),
+                      child: Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 50),
+                            child: _buildBackground(index, 230),
+                          ),
+                          Positioned(
+                            bottom: 150,
+                            right: 10,
+                            child: Transform.rotate(
+                              angle: -math.pi / 7,
+                              child: Image(
+                                  height: 100,
+                                  image: AssetImage(
+                                      "assets/${shoeList[index].imgPath}")),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 }),
