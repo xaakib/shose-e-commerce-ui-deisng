@@ -1,81 +1,209 @@
+import 'package:e_commerce_mobile_app/core/const.dart';
+import 'package:e_commerce_mobile_app/core/flutter%20icons.dart';
 import 'package:e_commerce_mobile_app/models/shoe_model.dart';
 import 'package:e_commerce_mobile_app/widgets/app_clipper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'dart:math' as math;
 
-class DetailsScreen extends StatefulWidget {
+class DetailPage extends StatefulWidget {
   final ShoeModel shoeModel;
-
-  const DetailsScreen(this.shoeModel);
+  DetailPage(this.shoeModel);
 
   @override
-  _DetailsScreenState createState() => _DetailsScreenState();
+  _DetailPageState createState() => _DetailPageState();
 }
 
-class _DetailsScreenState extends State<DetailsScreen> {
+class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: widget.shoeModel.color,
       appBar: AppBar(
-        title: Text("Categories"),
+        backgroundColor: widget.shoeModel.color,
         elevation: 0,
+        title: Text("CATEGORIES"),
+        leading: IconButton(
+          icon: Icon(FlutterIcons.add),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
-      body: Stack(
-        children: [
-          Positioned(
-            bottom: 0,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * .8,
-              child: ClipPath(
-                clipper: AppClipper(cornerSize: 50, diagonalHeight: 200),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  color: Colors.white,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 180, left: 16, right: 16),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              bottom: 0,
+              child: Container(
+                height: MediaQuery.of(context).size.height * .75,
+                width: MediaQuery.of(context).size.width,
+                child: ClipPath(
+                  clipper: AppClipper(
+                    cornerSize: 50,
+                    diagonalHeight: 180,
+                    roundedBottom: false,
+                  ),
+                  child: Container(
+                    color: Colors.white,
+                    padding: EdgeInsets.only(top: 180, left: 16, right: 16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: <Widget>[
                         Container(
                           width: 300,
                           child: Text(
                             "${widget.shoeModel.name}",
                             style: TextStyle(
                               fontSize: 32,
-                              color: Colors.black,
                             ),
                           ),
                         ),
-                        buildRating(),
-                        SizedBox(
-                          height: 24,
-                        ),
+                        SizedBox(height: 16),
+                        _buildRating(),
+                        SizedBox(height: 24),
                         Text(
-                          "Details",
+                          "DETAILS",
                           style: TextStyle(
-                            fontSize: 24,
                             fontWeight: FontWeight.bold,
+                            fontSize: 18,
                           ),
                         ),
+                        SizedBox(height: 16),
+                        Text(
+                          "${widget.shoeModel.desc}",
+                          style: TextStyle(
+                            color: Colors.black38,
+                          ),
+                        ),
+                        SizedBox(height: 24),
+                        Text(
+                          "COLOR OPTIONS",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        Row(
+                          children: <Widget>[
+                            _buildColorOption(AppColors.blueColor),
+                            _buildColorOption(AppColors.greenColor),
+                            _buildColorOption(AppColors.orangeColor),
+                            _buildColorOption(AppColors.redColor),
+                          ],
+                        )
                       ],
                     ),
                   ),
                 ),
               ),
             ),
+            Positioned(
+              bottom: 0,
+              child: _buildBottom(),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 50),
+              child: Hero(
+                tag: "hero${widget.shoeModel.imgPath}",
+                child: Transform.rotate(
+                  angle: -math.pi / 7,
+                  child: Image(
+                    width: MediaQuery.of(context).size.width * .85,
+                    image: AssetImage("assets/${widget.shoeModel.imgPath}"),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBottom() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            spreadRadius: 1,
+            blurRadius: 10,
           )
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "PRICE",
+                style: TextStyle(
+                  color: Colors.black26,
+                ),
+              ),
+              Text(
+                "\$${widget.shoeModel.price.toInt()}",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 28,
+                ),
+              ),
+            ],
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(
+              vertical: 16,
+              horizontal: 50,
+            ),
+            decoration: BoxDecoration(
+              color: AppColors.greenColor,
+              borderRadius: BorderRadius.all(
+                Radius.circular(50),
+              ),
+            ),
+            child: Text(
+              "ADD CART",
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget buildRating() {
+  Widget _buildColorOption(Color color) {
+    return Container(
+      width: 20,
+      height: 20,
+      margin: EdgeInsets.only(right: 8),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.all(
+          Radius.circular(50),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRating() {
     return Row(
-      children: [
+      children: <Widget>[
         RatingBar.builder(
           initialRating: 3,
           minRating: 1,
@@ -91,6 +219,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
             print(rating);
           },
         ),
+        SizedBox(width: 16),
+        Text(
+          "134 Reviews",
+          style: TextStyle(
+            color: Colors.black26,
+          ),
+        )
       ],
     );
   }

@@ -4,7 +4,7 @@ class AppClipper extends CustomClipper<Path> {
   final double cornerSize;
   final double diagonalHeight;
 
-  AppClipper({this.cornerSize, this.diagonalHeight});
+  AppClipper({this.cornerSize, this.diagonalHeight, bool roundedBottom});
   @override
   Path getClip(Size size) {
     Path path = Path();

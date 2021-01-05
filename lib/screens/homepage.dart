@@ -1,10 +1,11 @@
 import 'package:e_commerce_mobile_app/core/const.dart';
 import 'package:e_commerce_mobile_app/core/flutter%20icons.dart';
 import 'package:e_commerce_mobile_app/models/shoe_model.dart';
-import 'package:e_commerce_mobile_app/screens/details_screen.dart';
 import 'package:e_commerce_mobile_app/widgets/app_clipper.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+
+import 'details_screen.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -20,144 +21,178 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: Icon(FlutterIcons.stars, color: Colors.black),
+        leading: Icon(
+          FlutterIcons.menu,
+          color: Colors.black,
+        ),
       ),
       body: ListView(
-        children: [
+        children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Categories'),
+              children: <Widget>[
+                Text(
+                  "Categories",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 32,
+                  ),
+                ),
                 IconButton(
-                  icon: Icon(FlutterIcons.add),
-                  onPressed: () {},
+                  icon: Icon(FlutterIcons.search, color: Colors.black26),
+                  onPressed: null,
                 ),
               ],
             ),
           ),
           Container(
-            margin: EdgeInsets.symmetric(vertical: 16),
             height: 300,
+            margin: EdgeInsets.symmetric(vertical: 16),
             child: ListView.builder(
-                itemCount: shoeList.length,
-                physics: BouncingScrollPhysics(),
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => DetailsScreen(
-                            shoeList[index],
-                          ),
+              itemCount: shoeList.length,
+              scrollDirection: Axis.horizontal,
+              physics: BouncingScrollPhysics(),
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => DetailPage(
+                          shoeList[index],
                         ),
-                      );
-                    },
-                    child: Container(
-                      width: 230,
-                      margin: EdgeInsets.only(right: 16),
-                      child: Stack(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 50),
-                            child: _buildBackground(index, 230),
-                          ),
-                          Positioned(
-                            bottom: 150,
-                            right: 10,
+                      ),
+                    );
+                  },
+                  child: Container(
+                    width: 230,
+                    margin: EdgeInsets.only(right: 16),
+                    child: Stack(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(top: 25),
+                          child: _buildBackground(index, 230),
+                        ),
+                        Positioned(
+                          bottom: 130,
+                          right: 10,
+                          child: Hero(
+                            tag: "hero${shoeList[index].imgPath}",
                             child: Transform.rotate(
                               angle: -math.pi / 7,
                               child: Image(
-                                  height: 100,
-                                  image: AssetImage(
-                                      "assets/${shoeList[index].imgPath}")),
+                                width: 220,
+                                image: AssetImage(
+                                    "assets/${shoeList[index].imgPath}"),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          SizedBox(height: 16),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  "JUST FOR YOU",
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  "VIEW ALL",
+                  style: TextStyle(
+                    color: AppColors.greenColor,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 24),
+          ...shoeList.map((data) {
+            return GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => DetailPage(
+                      data,
+                    ),
+                  ),
+                );
+              },
+              child: Container(
+                margin: EdgeInsets.only(left: 16, right: 16, bottom: 10),
+                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(25),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      spreadRadius: 1,
+                      blurRadius: 10,
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: <Widget>[
+                    Image(
+                      image: AssetImage("assets/${data.imgPath}"),
+                      width: 100,
+                      height: 60,
+                    ),
+                    SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            width: MediaQuery.of(context).size.width * .4,
+                            child: Text(
+                              "${data.name}",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            "${data.brand}",
+                            style: TextStyle(
+                              color: Colors.black26,
+                              height: 1.5,
                             ),
                           ),
                         ],
                       ),
                     ),
-                  );
-                }),
-          ),
-          SizedBox(
-            height: 16,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "JUST FOR YOU",
-                  style: TextStyle(color: Colors.black54),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Text(
+                        "\$${data.price.toInt()}",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                Text("VIEW ALL",
-                    style:
-                        TextStyle(color: AppColors.greenColor, fontSize: 12)),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 24,
-          ),
-          ...shoeList.map((data) {
-            return Container(
-              margin: EdgeInsets.only(left: 16, right: 16, bottom: 10),
-              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 10,
-                    )
-                  ]),
-              child: Row(
-                children: [
-                  Image(
-                    height: 60,
-                    width: 100,
-                    image: AssetImage("assets/${data.imgPath}"),
-                  ),
-                  SizedBox(
-                    width: 26,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width * .4,
-                          child: Text(
-                            "${data.name}",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        Text(
-                          "${data.brand}",
-                          style: TextStyle(height: 1.5, color: Colors.black26),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-                    child: Text(
-                      "${data.price.toInt()}",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
               ),
             );
           }),
@@ -175,124 +210,107 @@ class _HomePageState extends State<HomePage> {
               color: Colors.black12,
               spreadRadius: 1,
               blurRadius: 10,
-            ),
+            )
           ],
         ),
         child: BottomNavigationBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            selectedItemColor: AppColors.greenColor,
-            unselectedItemColor: Colors.black26,
-            currentIndex: 2,
-            type: BottomNavigationBarType.fixed,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            items: [
-              BottomNavigationBarItem(
-                icon: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(FlutterIcons.compass),
-                ),
-                // ignore: deprecated_member_use
-                title: Text(
-                  "data",
-                ),
+          selectedItemColor: AppColors.greenColor,
+          unselectedItemColor: Colors.black26,
+          currentIndex: 1,
+          type: BottomNavigationBarType.fixed,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          items: [
+            BottomNavigationBarItem(
+              icon: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(FlutterIcons.compass),
               ),
-              BottomNavigationBarItem(
-                icon: Icon(FlutterIcons.ok),
-                // ignore: deprecated_member_use
-                title: Text(
-                  "data",
-                ),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(FlutterIcons.person),
-                // ignore: deprecated_member_use
-                title: Text(
-                  "data",
-                ),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(FlutterIcons.chevron_left),
-                // ignore: deprecated_member_use
-                title: Text(
-                  "data",
-                ),
-              ),
-            ]),
+              title: Text("data"),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(FlutterIcons.search),
+              title: Text("data"),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(FlutterIcons.search),
+              title: Text("data"),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(FlutterIcons.ok),
+              title: Text("data"),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildBackground(int index, double weidth) {
+  Widget _buildBackground(int index, double width) {
     return ClipPath(
       clipper: AppClipper(cornerSize: 25, diagonalHeight: 100),
       child: Container(
-        width: weidth,
         color: shoeList[index].color,
+        width: width,
         child: Stack(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Icon(
-                    shoeList[index].brand == "Nike"
-                        ? FlutterIcons.compass
-                        : FlutterIcons.person,
-                    size: 30,
-                  ),
-                ),
-                Expanded(
-                  child: SizedBox(
-                    height: 10,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 20),
-                  width: 125,
-                  child: Text(
-                    "${shoeList[index].name}",
-                    style: TextStyle(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Icon(
+                      shoeList[index].brand == "Nike"
+                          ? FlutterIcons.chevron_left
+                          : FlutterIcons.chevron_left,
+                      size: 30,
                       color: Colors.white,
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 20),
-                  child: Text(
+                  Expanded(child: SizedBox()),
+                  Container(
+                    width: 125,
+                    child: Text(
+                      "${shoeList[index].name}",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
                     "${shoeList[index].price}",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-              ],
+                  SizedBox(height: 16),
+                ],
+              ),
             ),
             Positioned(
-              right: 0,
               bottom: 0,
+              right: 0,
               child: Container(
-                height: 50,
                 width: 50,
-                child: Icon(
-                  FlutterIcons.menu,
-                  color: Colors.white,
-                ),
+                height: 50,
                 decoration: BoxDecoration(
-                    color: AppColors.greenColor,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                    )),
+                  color: AppColors.greenColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                  ),
+                ),
+                child: Center(
+                  child: Icon(
+                    FlutterIcons.add,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             )
           ],
