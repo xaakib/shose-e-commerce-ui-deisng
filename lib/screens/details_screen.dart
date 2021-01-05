@@ -35,7 +35,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   height: MediaQuery.of(context).size.height,
                   color: Colors.white,
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 180),
+                    padding:
+                        const EdgeInsets.only(top: 180, left: 16, right: 16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -49,26 +50,17 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             ),
                           ),
                         ),
-                        Row(
-                          children: [
-                            RatingBar.builder(
-                              initialRating: 3,
-                              minRating: 1,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemPadding:
-                                  EdgeInsets.symmetric(horizontal: 4.0),
-                              itemBuilder: (context, _) => Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                              ),
-                              onRatingUpdate: (rating) {
-                                print(rating);
-                              },
-                            )
-                          ],
-                        )
+                        buildRating(),
+                        SizedBox(
+                          height: 24,
+                        ),
+                        Text(
+                          "Details",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -78,6 +70,28 @@ class _DetailsScreenState extends State<DetailsScreen> {
           )
         ],
       ),
+    );
+  }
+
+  Widget buildRating() {
+    return Row(
+      children: [
+        RatingBar.builder(
+          initialRating: 3,
+          minRating: 1,
+          direction: Axis.horizontal,
+          allowHalfRating: true,
+          itemCount: 5,
+          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+          itemBuilder: (context, _) => Icon(
+            Icons.star,
+            color: Colors.amber,
+          ),
+          onRatingUpdate: (rating) {
+            print(rating);
+          },
+        ),
+      ],
     );
   }
 }
